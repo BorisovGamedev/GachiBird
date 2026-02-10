@@ -2,8 +2,9 @@
     "name": "Flappy.Game",
     "rootNamespace": "",
     "references": [
+        "GUID:65d601a62babf2144bc8910400781f67",
         "GUID:0d8beb7f090555447a6cf5ce9e54dbb4",
-        "GUID:65d601a62babf2144bc8910400781f67"
+        "GUID:6055be8ebefd69e48b49212b09b47b2f"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

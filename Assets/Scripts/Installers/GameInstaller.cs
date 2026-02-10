@@ -1,43 +1,45 @@
-using Zenject;
+using System;
 using Flappy.Core;
 using Flappy.Game;
-using Game;
 using UnityEngine;
+using Zenject;
 
 namespace Flappy.Installers
 {
     public class GameInstaller : MonoInstaller
     {
         [SerializeField] private BirdController _birdPrefab;
-        [SerializeField] private Transform _startPoint;
-
+        [SerializeField] private PipeView _pipePrefab;
+        [SerializeField] private Transform _birdSpawnPoint;
+        
         public override void InstallBindings()
         {
-            // 1. Установка SignalBus
             SignalBusInstaller.Install(Container);
 
-            // 2. Объявление сигналов (Обязательно!)
-            Container.DeclareSignal<JumpInputSignal>();
+            Container.DeclareSignal<ClickSignal>();
+            Container.DeclareSignal<GetScoreSignal>();
             Container.DeclareSignal<BirdCrashedSignal>();
             Container.DeclareSignal<GameStartSignal>();
+            Container.DeclareSignal<ScoreChangedSignal>();
 
-            // 3. Биндинг InputHandler
-            // BindInterfacesTo означает, что он привяжется к ITickable (будет вызываться Tick)
             Container.BindInterfacesTo<InputHandler>().AsSingle();
 
-            // 4. Биндинг Состояний (Как обычные классы)
+            Container.Bind<StartState>().AsSingle();
             Container.Bind<PlayingState>().AsSingle();
             Container.Bind<GameOverState>().AsSingle();
-
-            // 5. Биндинг GameController (Он IInitializable, поэтому запустится сам)
+            
+            Container.BindInterfacesAndSelfTo<ScoreManager>().AsSingle();
             Container.BindInterfacesAndSelfTo<GameController>().AsSingle();
+            Container.BindInterfacesAndSelfTo<PipeSpawner>().AsSingle();
 
-            // 6. Биндинг Птицы (Создаем её на сцене)
             Container.Bind<BirdController>()
                 .FromComponentInNewPrefab(_birdPrefab)
-                .UnderTransform(_startPoint)
+                .UnderTransform(_birdSpawnPoint)
                 .AsSingle()
-                .NonLazy(); // Создать сразу при старте
+                .NonLazy();
+            
+            Container.BindFactory<PipeView, PipeView.Factory>()
+                .FromComponentInNewPrefab(_pipePrefab);//трубы спавнятся поверх Canvas, поэтому их не видно
         }
     }
 }

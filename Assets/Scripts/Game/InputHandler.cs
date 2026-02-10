@@ -1,10 +1,10 @@
-using UnityEngine;
-using Zenject;
 using Flappy.Core;
+using Zenject;
+using UnityEngine;
 
 namespace Flappy.Game
 {
-    public class InputHandler : ITickable // Zenject интерфейс для Update
+    public class InputHandler : ITickable
     {
         private readonly SignalBus _signalBus;
 
@@ -15,9 +15,9 @@ namespace Flappy.Game
 
         public void Tick()
         {
-            if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetMouseButtonDown(0))
             {
-                _signalBus.Fire<JumpInputSignal>();
+                _signalBus.Fire<ClickSignal>();
             }
         }
     }

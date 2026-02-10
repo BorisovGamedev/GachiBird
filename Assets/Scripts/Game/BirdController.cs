@@ -2,41 +2,60 @@ using UnityEngine;
 using Zenject;
 using Flappy.Core;
 
-namespace Game
+namespace Flappy.Game
 {
     public class BirdController : MonoBehaviour
     {
+        [SerializeField] private RectTransform _rectTransform;
         [SerializeField] private Rigidbody2D _rigidbody;
-        [SerializeField] private float _jumpForce = 5f;
+        [SerializeField] private float _jumpForce = 1f;
 
+        private Vector2 _initialPosition;
         private SignalBus _signalBus;
 
         [Inject]
         public void Construct(SignalBus signalBus)
         {
             _signalBus = signalBus;
+            _rectTransform = GetComponent<RectTransform>();
+            _initialPosition = _rectTransform.anchoredPosition;
+        }
+
+        public void ResetPosition()
+        {
+            _rectTransform.anchoredPosition = _initialPosition;
         }
 
         private void OnEnable()
         {
-            // Подписываемся на сигнал прыжка
-            _signalBus.Subscribe<JumpInputSignal>(Jump);
+            _signalBus.Subscribe<ClickSignal>(Jump);
         }
 
         private void OnDisable()
         {
-            _signalBus.Unsubscribe<JumpInputSignal>(Jump);
+            _signalBus.Unsubscribe<ClickSignal>(Jump);
         }
 
         private void Jump()
         {
             _rigidbody.velocity = Vector2.up * _jumpForce;
         }
-
-        private void OnCollisionEnter2D(Collision2D other)
+        
+        private void OnTriggerEnter2D(Collider2D other)
         {
-            // Птица не вызывает GameOverManager. Она просто сообщает факт столкновения.
-            _signalBus.Fire<BirdCrashedSignal>();
+            Debug.Log("Коллизия");
+            
+            if (other.gameObject.GetComponent<ZoneGameOver>() != null)
+            {
+                Debug.Log("Птица врезалась");
+                _signalBus.Fire<BirdCrashedSignal>();
+            }
+            
+            if (other.gameObject.GetComponent<ZoneGetScore>() != null)
+            {
+                Debug.Log("Птица пролетела трубы");
+                _signalBus.Fire<GetScoreSignal>();
+            }
         }
     }
 }

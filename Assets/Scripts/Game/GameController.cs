@@ -7,24 +7,45 @@ namespace Flappy.Game
     public class GameController : IInitializable, IDisposable
     {
         private readonly SignalBus _signalBus;
+        private readonly StartState _startState;
         private readonly PlayingState _playingState;
         private readonly GameOverState _gameOverState;
         
         private IGameState _currentState;
 
-        public GameController(SignalBus signalBus, PlayingState playing, GameOverState gameOver)
+        public GameController(SignalBus signalBus, StartState startState, PlayingState playing, GameOverState gameOver)
         {
             _signalBus = signalBus;
+            _startState = startState;
             _playingState = playing;
             _gameOverState = gameOver;
         }
 
         public void Initialize()
         {
+            _signalBus.Subscribe<ClickSignal>(StartGame);
             _signalBus.Subscribe<BirdCrashedSignal>(OnBirdCrashed);
             
-            // Для простоты сразу начинаем игру
-            ChangeState(_playingState);
+            ChangeState(_startState);
+        }
+
+        private void StartGame()
+        {
+            if (_currentState == _playingState)
+            {
+                return;
+            }
+            
+            if (_currentState == _gameOverState)
+            {
+                ChangeState(_startState);
+                return;
+            }
+
+            if (_currentState == _startState)
+            {
+                ChangeState(_playingState);
+            }
         }
 
         private void OnBirdCrashed()
@@ -41,6 +62,7 @@ namespace Flappy.Game
 
         public void Dispose()
         {
+            _signalBus.Unsubscribe<ClickSignal>(StartGame);
             _signalBus.Unsubscribe<BirdCrashedSignal>(OnBirdCrashed);
         }
     }
