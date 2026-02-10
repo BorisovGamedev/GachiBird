@@ -331,6 +331,7 @@ GameObject:
   - component: {fileID: 7045292327304070629}
   - component: {fileID: 4277364759139940131}
   - component: {fileID: 3624019265599526209}
+  - component: {fileID: 1758779079776450103}
   m_Layer: 5
   m_Name: ZoneGetScore
   m_TagString: Untagged
@@ -410,3 +411,15 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 100, y: 500}
   m_EdgeRadius: 0
+--- !u!114 &1758779079776450103
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5792771351004652373}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55107e5d49644c8419b83fb3f7e195b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

@@ -8,12 +8,16 @@ public class PipeView : MonoBehaviour
     private void Update()
     {
         transform.Translate(Vector3.left * _speed * Time.deltaTime);
-        
-        if (transform.position.x < -10f)
-        {
-            Destroy(gameObject);
-        }
     }
     
-    public class Factory : PlaceholderFactory<PipeView> { }
+    public class Pool : MonoMemoryPool<PipeView> { }
+
+    private IMemoryPool _pool;
+
+    [Inject]
+    public void Construct(PipeView.Pool pool)
+    {
+        _pool = pool;
+        transform.localScale = Vector3.one;
+    }
 }

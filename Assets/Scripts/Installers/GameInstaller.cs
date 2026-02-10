@@ -9,8 +9,9 @@ namespace Flappy.Installers
     public class GameInstaller : MonoInstaller
     {
         [SerializeField] private BirdController _birdPrefab;
-        [SerializeField] private PipeView _pipePrefab;
         [SerializeField] private Transform _birdSpawnPoint;
+        [SerializeField] private PipeView _pipePrefab;
+        [SerializeField] private Transform _pipesContainer; 
         
         public override void InstallBindings()
         {
@@ -38,8 +39,10 @@ namespace Flappy.Installers
                 .AsSingle()
                 .NonLazy();
             
-            Container.BindFactory<PipeView, PipeView.Factory>()
-                .FromComponentInNewPrefab(_pipePrefab);//трубы спавнятся поверх Canvas, поэтому их не видно
+            Container.BindMemoryPool<PipeView, PipeView.Pool>()
+                .WithInitialSize(5)
+                .FromComponentInNewPrefab(_pipePrefab)
+                .UnderTransform(_pipesContainer);
         }
     }
 }

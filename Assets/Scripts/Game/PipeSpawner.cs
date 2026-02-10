@@ -1,17 +1,20 @@
+using System.Collections.Generic;
 using Zenject;
 using UnityEngine;
 
 public class PipeSpawner : ITickable
 {
-    private readonly PipeView.Factory _pipeFactory;
+    private readonly PipeView.Pool _pool;
     private readonly float _spawnInterval = 2f;
+    private readonly Queue<PipeView> _pipes = new Queue<PipeView>();
     
+    private  int _maxPipes = 5;
     private float _timer;
     private bool _isSpawning = false;
 
-    public PipeSpawner(PipeView.Factory pipeFactory)
+    public PipeSpawner(PipeView.Pool pool)
     {
-        _pipeFactory = pipeFactory;
+        _pool = pool;
     }
 
     public void SetActive(bool isActive)
@@ -31,12 +34,30 @@ public class PipeSpawner : ITickable
             _timer = _spawnInterval;
         }
     }
-
+    
     private void SpawnPipe()
     {
-        PipeView newPipe = _pipeFactory.Create();
+        PipeView pipe;
+
+        if (_pipes.Count >= _maxPipes)
+        {
+            PipeView oldPipe = _pipes.Dequeue();
+            
+            pipe = oldPipe;
+        }
+        else
+        {
+            pipe = _pool.Spawn();
+        }
+
+        ResetPipe(pipe);
         
-        float randomY = Random.Range(500f, 1300f);
-        newPipe.transform.position = new Vector3(1200f, randomY, 0f);
+        _pipes.Enqueue(pipe);
+    }
+
+    private void ResetPipe(PipeView pipe)
+    {
+        float randomY = Random.Range(650f, 1250f);
+        pipe.transform.position = new Vector3(1200f, randomY, 0f);
     }
 }

@@ -550,8 +550,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _birdPrefab: {fileID: 7361973423125315752, guid: 1fdc174f40a119a4aa196a391e6758e2, type: 3}
-  _pipePrefab: {fileID: -782363460104593293, guid: 44e5f594e056b3b4b8e817f04c27ebc5, type: 3}
   _birdSpawnPoint: {fileID: 455889489}
+  _pipePrefab: {fileID: -782363460104593293, guid: 44e5f594e056b3b4b8e817f04c27ebc5, type: 3}
+  _pipesContainer: {fileID: 1010179755}
 --- !u!114 &669306197
 MonoBehaviour:
   m_ObjectHideFlags: 0
