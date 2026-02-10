@@ -1,6 +1,7 @@
 using System;
 using Zenject;
 using Flappy.Core;
+using UnityEngine;
 
 namespace Flappy.Game
 {
@@ -39,6 +40,7 @@ namespace Flappy.Game
             if (_currentState == _gameOverState)
             {
                 ChangeState(_startState);
+                _signalBus.Fire<GameStartSignal>();
                 return;
             }
 

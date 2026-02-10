@@ -1,4 +1,3 @@
-using System;
 using Flappy.Core;
 using Flappy.Game;
 using UnityEngine;
@@ -11,7 +10,10 @@ namespace Flappy.Installers
         [SerializeField] private BirdController _birdPrefab;
         [SerializeField] private Transform _birdSpawnPoint;
         [SerializeField] private PipeView _pipePrefab;
-        [SerializeField] private Transform _pipesContainer; 
+        [SerializeField] private Transform _pipesContainer;
+        
+        [SerializeField] private StartWindow _startWindow;
+        [SerializeField] private GameOverWindow _gameOverWindow;
         
         public override void InstallBindings()
         {
@@ -28,6 +30,9 @@ namespace Flappy.Installers
             Container.Bind<StartState>().AsSingle();
             Container.Bind<PlayingState>().AsSingle();
             Container.Bind<GameOverState>().AsSingle();
+            
+            Container.Bind<StartWindow>().FromInstance(_startWindow).AsSingle();
+            Container.Bind<GameOverWindow>().FromInstance(_gameOverWindow).AsSingle();
             
             Container.BindInterfacesAndSelfTo<ScoreManager>().AsSingle();
             Container.BindInterfacesAndSelfTo<GameController>().AsSingle();

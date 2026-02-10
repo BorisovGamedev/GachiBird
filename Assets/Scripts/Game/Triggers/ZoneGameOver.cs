@@ -1,6 +1,9 @@
 using UnityEngine;
 
-public class ZoneGameOver : MonoBehaviour
+namespace Flappy.Game
 {
+    public class ZoneGameOver : MonoBehaviour
+    {
 
+    }
 }

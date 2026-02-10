@@ -18,7 +18,6 @@ namespace Flappy.Game
 
         public void Start()
         {
-            Debug.Log("Game Started!");
             Time.timeScale = 1;
             _spawner.SetActive(true);
         }

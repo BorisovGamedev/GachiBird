@@ -5,14 +5,24 @@ namespace Flappy.Game
 {
     public class GameOverState : IGameState
     {
+        private readonly GameOverWindow _window;
+        
+        public GameOverState(GameOverWindow window)
+        {
+            _window = window;
+        }
+        
         public void Start()
         {
-            Debug.Log("Game Over!");
             Time.timeScale = 0;
-            // Показать UI перезапуска
+            _window.Show();
         }
 
         public void Tick() { }
-        public void Dispose() { }
+
+        public void Dispose()
+        {
+            _window.Hide();
+        }
     }
 }

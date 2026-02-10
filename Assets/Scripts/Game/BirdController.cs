@@ -43,17 +43,13 @@ namespace Flappy.Game
         
         private void OnTriggerEnter2D(Collider2D other)
         {
-            Debug.Log("Коллизия");
-            
             if (other.gameObject.GetComponent<ZoneGameOver>() != null)
             {
-                Debug.Log("Птица врезалась");
                 _signalBus.Fire<BirdCrashedSignal>();
             }
             
             if (other.gameObject.GetComponent<ZoneGetScore>() != null)
             {
-                Debug.Log("Птица пролетела трубы");
                 _signalBus.Fire<GetScoreSignal>();
             }
         }

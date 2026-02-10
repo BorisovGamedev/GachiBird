@@ -1,6 +1,9 @@
 using UnityEngine;
 
-public class ZoneGetScore : MonoBehaviour
+namespace Flappy.Game
 {
-    
+    public class ZoneGetScore : MonoBehaviour
+    {
+
+    }
 }

@@ -34,6 +34,14 @@ public class PipeSpawner : ITickable
             _timer = _spawnInterval;
         }
     }
+
+    public void ClearPipes()
+    {
+        while (_pipes.Count > 0)
+        {
+            _pool.Despawn(_pipes.Dequeue());
+        }
+    }
     
     private void SpawnPipe()
     {

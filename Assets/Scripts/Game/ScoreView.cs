@@ -10,6 +10,7 @@ namespace Flappy.Game
         [SerializeField] private TMP_Text _currentScore;
         [SerializeField] private TMP_Text _recordScore;
         [SerializeField] private TMP_Text _totalScore;
+        [SerializeField] private TMP_Text _averageScore;
         
         private SignalBus _signalBus;
 
@@ -31,9 +32,10 @@ namespace Flappy.Game
 
         private void UpdateTexts(ScoreChangedSignal signal)
         {
-            _currentScore.text = "Score:" + signal.CurrentScore.ToString();
+            _currentScore.text = "Score:" + signal.CurrentScore.ToString(); //string лучше вывести в константы, но для тестового проекта пойдёт
             _recordScore.text = "Record:" + signal.RecordScore.ToString();
-            _totalScore.text = "Total:" + signal.TotalScore.ToString(); //string лучше вывести в константы, но для тестового проекта пойдёт
+            _totalScore.text = "Total:" + signal.TotalScore.ToString();
+            _averageScore.text = "Average:" + signal.AverageScore.ToString("F3");
         }
     }
 }

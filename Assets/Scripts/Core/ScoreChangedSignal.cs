@@ -5,5 +5,6 @@ namespace Flappy.Core
         public int CurrentScore;
         public int RecordScore;
         public int TotalScore;
+        public float AverageScore;
     }
 }
