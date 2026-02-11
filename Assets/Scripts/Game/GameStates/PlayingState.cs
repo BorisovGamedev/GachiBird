@@ -1,18 +1,15 @@
 using Flappy.Core;
 using UnityEngine;
-using Zenject;
 
 
 namespace Flappy.Game
 {
     public class PlayingState : IGameState
     {
-        private readonly SignalBus _signalBus;
         private readonly PipeSpawner _spawner;
         
-        public PlayingState(SignalBus signalBus, PipeSpawner spawner)
+        public PlayingState(PipeSpawner spawner)
         {
-            _signalBus = signalBus;
             _spawner = spawner;
         }
 
@@ -22,10 +19,7 @@ namespace Flappy.Game
             _spawner.SetActive(true);
         }
 
-        public void Tick()
-        {
-
-        }
+        public void Tick() { }
 
         public void Dispose()
         {

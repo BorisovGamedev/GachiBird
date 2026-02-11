@@ -27,6 +27,8 @@ namespace Flappy.Installers
 
             Container.BindInterfacesTo<InputHandler>().AsSingle();
 
+            Container.Bind<ADManager>().AsSingle().NonLazy();
+            
             Container.Bind<StartState>().AsSingle();
             Container.Bind<PlayingState>().AsSingle();
             Container.Bind<GameOverState>().AsSingle();

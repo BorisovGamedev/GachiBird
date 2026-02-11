@@ -2,8 +2,5 @@ using UnityEngine;
 
 namespace Flappy.Game
 {
-    public class ZoneGameOver : MonoBehaviour
-    {
-
-    }
+    public class ZoneGameOver : MonoBehaviour { }
 }

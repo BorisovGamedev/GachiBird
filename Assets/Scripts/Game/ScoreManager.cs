@@ -1,6 +1,5 @@
 using System;
 using Flappy.Core;
-using UnityEngine;
 using Zenject;
 
 namespace Flappy.Game

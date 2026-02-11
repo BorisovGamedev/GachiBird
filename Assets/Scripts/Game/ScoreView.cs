@@ -32,7 +32,7 @@ namespace Flappy.Game
 
         private void UpdateTexts(ScoreChangedSignal signal)
         {
-            _currentScore.text = "Score:" + signal.CurrentScore.ToString(); //string лучше вывести в константы, но для тестового проекта пойдёт
+            _currentScore.text = "Score:" + signal.CurrentScore.ToString();
             _recordScore.text = "Record:" + signal.RecordScore.ToString();
             _totalScore.text = "Total:" + signal.TotalScore.ToString();
             _averageScore.text = "Average:" + signal.AverageScore.ToString("F3");
