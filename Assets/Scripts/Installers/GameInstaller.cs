@@ -9,7 +9,7 @@ namespace Flappy.Installers
     {
         [SerializeField] private BirdController _birdPrefab;
         [SerializeField] private Transform _birdSpawnPoint;
-        [SerializeField] private PipeView _pipePrefab;
+        [SerializeField] private PipePresentation _pipePrefab;
         [SerializeField] private Transform _pipesContainer;
         
         [SerializeField] private StartWindow _startWindow;
@@ -46,7 +46,7 @@ namespace Flappy.Installers
                 .AsSingle()
                 .NonLazy();
             
-            Container.BindMemoryPool<PipeView, PipeView.Pool>()
+            Container.BindMemoryPool<PipePresentation, PipePresentation.Pool>()
                 .WithInitialSize(5)
                 .FromComponentInNewPrefab(_pipePrefab)
                 .UnderTransform(_pipesContainer);

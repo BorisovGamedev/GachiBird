@@ -7,7 +7,7 @@ namespace Flappy.Game
 {
     public class BirdController : MonoBehaviour
     {
-        [SerializeField] private RectTransform _rectTransform;
+        [SerializeField] private Transform _transform;
         [SerializeField] private Rigidbody2D _rigidbody;
         [SerializeField] private float _jumpForce = 1f;
 
@@ -22,8 +22,8 @@ namespace Flappy.Game
         {
             _signalBus = signalBus;
             _inputHandler = inputHandler;
-            _rectTransform = GetComponent<RectTransform>();
-            _initialPosition = _rectTransform.anchoredPosition;
+            _transform = GetComponent<Transform>();
+            _initialPosition = _transform.position;
         }
 
         private void OnEnable()
@@ -33,7 +33,7 @@ namespace Flappy.Game
         
         public void ResetPosition()
         {
-            _rectTransform.anchoredPosition = _initialPosition;
+            _transform.position = _initialPosition;
         }
 
         private void Jump()

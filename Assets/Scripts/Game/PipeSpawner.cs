@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class PipeSpawner : ITickable
 {
-    private readonly PipeView.Pool _pool;
+    private readonly PipePresentation.Pool _pool;
     private readonly float _spawnInterval = 2f;
-    private readonly Queue<PipeView> _pipes = new Queue<PipeView>();
+    private readonly Queue<PipePresentation> _pipes = new Queue<PipePresentation>();
     
     private  int _maxPipes = 5;
     private float _timer;
     private bool _isSpawning = false;
 
-    public PipeSpawner(PipeView.Pool pool)
+    public PipeSpawner(PipePresentation.Pool pool)
     {
         _pool = pool;
     }
@@ -45,11 +45,11 @@ public class PipeSpawner : ITickable
     
     private void SpawnPipe()
     {
-        PipeView pipe;
+        PipePresentation pipe;
 
         if (_pipes.Count >= _maxPipes)
         {
-            PipeView oldPipe = _pipes.Dequeue();
+            PipePresentation oldPipe = _pipes.Dequeue();
             
             pipe = oldPipe;
         }
@@ -63,9 +63,9 @@ public class PipeSpawner : ITickable
         _pipes.Enqueue(pipe);
     }
 
-    private void ResetPipe(PipeView pipe)
+    private void ResetPipe(PipePresentation pipe)
     {
-        float randomY = Random.Range(650f, 1250f);
-        pipe.transform.position = new Vector3(1200f, randomY, 0f);
+        float randomY = Random.Range(-4f, 4f);
+        pipe.transform.position = new Vector3(30f, randomY, 0f);
     }
 }
