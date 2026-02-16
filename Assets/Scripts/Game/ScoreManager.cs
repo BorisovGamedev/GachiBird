@@ -1,66 +1,45 @@
 using System;
-using Flappy.Core;
 using Zenject;
+using Flappy.Core;
 
 namespace Flappy.Game
 {
     public class ScoreManager : IInitializable, IDisposable
     {
         private readonly SignalBus _signalBus;
+        
+        private ScoreProvider _scoreProvider;
+        private BirdController _birdController;
+        private ScoreView _scoreView;
 
-        private int _currentScore;
-        private int _recordScore;
-        private int _totalScore;
-        private int _totalGames = 1;
-        private float _averageScore = 0;
-
-        public ScoreManager(SignalBus signalBus)
+        public ScoreManager(SignalBus signalBus,  ScoreProvider scoreProvider, BirdController birdController)
         {
             _signalBus = signalBus;
+            _scoreProvider = scoreProvider;
+            _birdController =  birdController;
         }
 
         public void Initialize()
         {
             ResetCurrentScore();
-            _signalBus.Subscribe<GetScoreSignal>(AddScore);
-            _signalBus.Subscribe<GameStartSignal>(AddGameCount);
+            _signalBus.Subscribe<GameStartSignal>(ResetCurrentScore);
+            _birdController.OnZoneGetScoreEntered += AddScore;
         }
-        
+
         public void Dispose()
         {
-            _signalBus.Unsubscribe<GetScoreSignal>(AddScore);
-            _signalBus.Unsubscribe<GameStartSignal>(AddGameCount);
+            _signalBus.Unsubscribe<GameStartSignal>(ResetCurrentScore);
+            _birdController.OnZoneGetScoreEntered -= AddScore;
         }
 
         public void ResetCurrentScore()
         {
-            _currentScore = 0;
-            FireSignalScoreChanged();
+            _scoreProvider.ResetCurrentScore();
         }
 
-        private void AddGameCount()
-        {
-            _totalGames++;
-        }
-        
         private void AddScore()
         {
-            _currentScore++;
-            _totalScore++;
-
-            if (_recordScore < _currentScore)
-            {
-                _recordScore = _currentScore;
-            }
-
-            _averageScore =  (float)_totalScore / (float)_totalGames;
-
-            FireSignalScoreChanged();
-        }
-        
-        private void FireSignalScoreChanged()
-        { 
-            _signalBus.Fire(new ScoreChangedSignal() { CurrentScore = _currentScore, RecordScore = _recordScore, TotalScore = _totalScore, AverageScore = _averageScore});
+            _scoreProvider.AddScore();
         }
     }
 }

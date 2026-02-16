@@ -19,19 +19,19 @@ namespace Flappy.Installers
         {
             SignalBusInstaller.Install(Container);
 
-            Container.DeclareSignal<ClickSignal>();
-            Container.DeclareSignal<GetScoreSignal>();
             Container.DeclareSignal<BirdCrashedSignal>();
             Container.DeclareSignal<GameStartSignal>();
             Container.DeclareSignal<ScoreChangedSignal>();
 
-            Container.BindInterfacesTo<InputHandler>().AsSingle();
+            Container.BindInterfacesAndSelfTo<InputHandler>().AsSingle();
 
-            Container.Bind<ADManager>().AsSingle().NonLazy();
+            Container.Bind<StickyAdActivator>().AsSingle().NonLazy();
             
             Container.Bind<StartState>().AsSingle();
             Container.Bind<PlayingState>().AsSingle();
             Container.Bind<GameOverState>().AsSingle();
+            Container.Bind<ScoreView>().AsSingle();
+            Container.Bind<ScoreProvider>().AsSingle();
             
             Container.Bind<StartWindow>().FromInstance(_startWindow).AsSingle();
             Container.Bind<GameOverWindow>().FromInstance(_gameOverWindow).AsSingle();

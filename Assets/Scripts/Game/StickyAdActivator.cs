@@ -2,9 +2,9 @@ using YG;
 
 namespace Flappy.Game
 {
-    public class ADManager
+    public class StickyAdActivator
     {
-        public ADManager()
+        public StickyAdActivator()
         {
             YG2.StickyAdActivity(true);
         }

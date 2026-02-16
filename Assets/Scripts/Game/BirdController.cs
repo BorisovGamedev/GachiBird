@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using Zenject;
 using Flappy.Core;
@@ -12,28 +13,27 @@ namespace Flappy.Game
 
         private Vector2 _initialPosition;
         private SignalBus _signalBus;
+        private InputHandler _inputHandler;
+
+        public event Action OnZoneGetScoreEntered;
 
         [Inject]
-        public void Construct(SignalBus signalBus)
+        public void Construct(SignalBus signalBus, InputHandler inputHandler)
         {
             _signalBus = signalBus;
+            _inputHandler = inputHandler;
             _rectTransform = GetComponent<RectTransform>();
             _initialPosition = _rectTransform.anchoredPosition;
         }
 
+        private void OnEnable()
+        {
+            _inputHandler.OnClicked += Jump;
+        }
+        
         public void ResetPosition()
         {
             _rectTransform.anchoredPosition = _initialPosition;
-        }
-
-        private void OnEnable()
-        {
-            _signalBus.Subscribe<ClickSignal>(Jump);
-        }
-
-        private void OnDisable()
-        {
-            _signalBus.Unsubscribe<ClickSignal>(Jump);
         }
 
         private void Jump()
@@ -50,8 +50,13 @@ namespace Flappy.Game
             
             if (other.gameObject.GetComponent<ZoneGetScore>() != null)
             {
-                _signalBus.Fire<GetScoreSignal>();
+                OnZoneGetScoreEntered?.Invoke();
             }
+        }
+        
+        private void OnDisable()
+        {
+            _inputHandler.OnClicked -= Jump;
         }
     }
 }

@@ -1,7 +1,7 @@
+using System;
 using UnityEngine;
-using Flappy.Core;
-using Zenject;
 using TMPro;
+using Zenject;
 
 namespace Flappy.Game
 {
@@ -10,32 +10,25 @@ namespace Flappy.Game
         [SerializeField] private TMP_Text _currentScore;
         [SerializeField] private TMP_Text _recordScore;
         [SerializeField] private TMP_Text _totalScore;
-        [SerializeField] private TMP_Text _averageScore;
-        
-        private SignalBus _signalBus;
+
+        private ScoreProvider _scoreProvider;
 
         [Inject]
-        public void Construct(SignalBus signalBus)
+        public void Init(ScoreProvider scoreProvider)
         {
-            _signalBus = signalBus;
+            _scoreProvider = scoreProvider;
         }
 
         private void OnEnable()
         {
-            _signalBus.Subscribe<ScoreChangedSignal>(UpdateTexts);
-        }
-        
-        private void OnDisable()
-        {
-            _signalBus.Unsubscribe<ScoreChangedSignal>(UpdateTexts);
+            _scoreProvider.ValuesChanged += UpdateTexts;
         }
 
-        private void UpdateTexts(ScoreChangedSignal signal)
+        public void UpdateTexts()
         {
-            _currentScore.text = "Score:" + signal.CurrentScore.ToString();
-            _recordScore.text = "Record:" + signal.RecordScore.ToString();
-            _totalScore.text = "Total:" + signal.TotalScore.ToString();
-            _averageScore.text = "Average:" + signal.AverageScore.ToString("F3");
+            _currentScore.text = "Score:" + _scoreProvider.CurrentScore;
+            _recordScore.text = "Record:" + _scoreProvider.RecordScore;
+            _totalScore.text = "Total:" + _scoreProvider.TotalScore;
         }
     }
 }

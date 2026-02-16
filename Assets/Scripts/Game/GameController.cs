@@ -10,21 +10,23 @@ namespace Flappy.Game
         private readonly StartState _startState;
         private readonly PlayingState _playingState;
         private readonly GameOverState _gameOverState;
+        private readonly InputHandler _inputHandler;
         
         private IGameState _currentState;
 
-        public GameController(SignalBus signalBus, StartState startState, PlayingState playing, GameOverState gameOver)
+        public GameController(SignalBus signalBus, StartState startState, PlayingState playing, GameOverState gameOver, InputHandler inputHandler)
         {
             _signalBus = signalBus;
             _startState = startState;
             _playingState = playing;
             _gameOverState = gameOver;
+            _inputHandler = inputHandler;
         }
 
         public void Initialize()
         {
-            _signalBus.Subscribe<ClickSignal>(StartGame);
             _signalBus.Subscribe<BirdCrashedSignal>(OnBirdCrashed);
+            _inputHandler.OnClicked += StartGame;
             
             ChangeState(_startState);
         }
@@ -63,8 +65,8 @@ namespace Flappy.Game
 
         public void Dispose()
         {
-            _signalBus.Unsubscribe<ClickSignal>(StartGame);
             _signalBus.Unsubscribe<BirdCrashedSignal>(OnBirdCrashed);
+            _inputHandler.OnClicked -= StartGame;
         }
     }
 }

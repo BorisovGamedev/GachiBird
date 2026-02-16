@@ -12,12 +12,9 @@ public class PipeView : MonoBehaviour
     
     public class Pool : MonoMemoryPool<PipeView> { }
 
-    private IMemoryPool _pool;
-
     [Inject]
-    public void Construct(PipeView.Pool pool)
+    public void Construct()
     {
-        _pool = pool;
         transform.localScale = Vector3.one;
     }
 }

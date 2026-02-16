@@ -1,4 +1,4 @@
-using Flappy.Core;
+using System;
 using Zenject;
 using UnityEngine;
 
@@ -6,18 +6,18 @@ namespace Flappy.Game
 {
     public class InputHandler : ITickable
     {
-        private readonly SignalBus _signalBus;
+        public event Action OnClicked;
 
-        public InputHandler(SignalBus signalBus)
+        public InputHandler()
         {
-            _signalBus = signalBus;
+
         }
 
         public void Tick()
         {
             if (Input.GetMouseButtonDown(0))
             {
-                _signalBus.Fire<ClickSignal>();
+                OnClicked?.Invoke();
             }
         }
     }
