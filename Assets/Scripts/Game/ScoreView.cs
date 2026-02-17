@@ -14,7 +14,7 @@ namespace Flappy.Game
         private ScoreProvider _scoreProvider;
 
         [Inject]
-        public void Init(ScoreProvider scoreProvider)
+        public void Construct(ScoreProvider scoreProvider)
         {
             _scoreProvider = scoreProvider;
         }

@@ -1,20 +1,22 @@
 using System.Collections.Generic;
 using Zenject;
 using UnityEngine;
+using Flappy.Core;
 
 public class PipeSpawner : ITickable
 {
+    private readonly GameConfig.PipeSettings _settings;
+    
     private readonly PipePresentation.Pool _pool;
-    private readonly float _spawnInterval = 2f;
     private readonly Queue<PipePresentation> _pipes = new Queue<PipePresentation>();
     
-    private  int _maxPipes = 5;
     private float _timer;
     private bool _isSpawning = false;
 
-    public PipeSpawner(PipePresentation.Pool pool)
+    public PipeSpawner(PipePresentation.Pool pool, GameConfig.PipeSettings settings)
     {
         _pool = pool;
+        _settings = settings;
     }
 
     public void SetActive(bool isActive)
@@ -31,7 +33,7 @@ public class PipeSpawner : ITickable
         if (_timer <= 0)
         {
             SpawnPipe();
-            _timer = _spawnInterval;
+            _timer = _settings.SpawnInterval;
         }
     }
 
@@ -47,7 +49,7 @@ public class PipeSpawner : ITickable
     {
         PipePresentation pipe;
 
-        if (_pipes.Count >= _maxPipes)
+        if (_pipes.Count >= _settings.PoolSize)
         {
             PipePresentation oldPipe = _pipes.Dequeue();
             
@@ -65,7 +67,7 @@ public class PipeSpawner : ITickable
 
     private void ResetPipe(PipePresentation pipe)
     {
-        float randomY = Random.Range(-4f, 4f);
-        pipe.transform.position = new Vector3(30f, randomY, 0f);
+        float randomY = Random.Range(_settings.MinY, _settings.MaxY);
+        pipe.transform.position = new Vector3(_settings.OffsetX, randomY, 0f);
     }
 }

@@ -9,26 +9,29 @@ namespace Flappy.Game
     {
         [SerializeField] private Transform _transform;
         [SerializeField] private Rigidbody2D _rigidbody;
-        [SerializeField] private float _jumpForce = 1f;
 
         private Vector2 _initialPosition;
         private SignalBus _signalBus;
         private InputHandler _inputHandler;
+        
+        private GameConfig.BirdSettings _settings;
 
         public event Action OnZoneGetScoreEntered;
 
         [Inject]
-        public void Construct(SignalBus signalBus, InputHandler inputHandler)
+        public void Construct(SignalBus signalBus, InputHandler inputHandler, GameConfig.BirdSettings settings)
         {
             _signalBus = signalBus;
             _inputHandler = inputHandler;
             _transform = GetComponent<Transform>();
             _initialPosition = _transform.position;
+            _settings = settings;
         }
 
         private void OnEnable()
         {
             _inputHandler.OnClicked += Jump;
+            _rigidbody.gravityScale = _settings.GravityScale;
         }
         
         public void ResetPosition()
@@ -38,7 +41,8 @@ namespace Flappy.Game
 
         private void Jump()
         {
-            _rigidbody.velocity = Vector2.up * _jumpForce;
+            _rigidbody.velocity = Vector2.zero;
+            _rigidbody.velocity = Vector2.up * _settings.JumpForce;
         }
         
         private void OnTriggerEnter2D(Collider2D other)

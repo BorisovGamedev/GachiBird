@@ -7,6 +7,8 @@ namespace Flappy.Installers
 {
     public class GameInstaller : MonoInstaller
     {
+        [SerializeField] private GameConfig _gameConfig;
+        
         [SerializeField] private BirdController _birdPrefab;
         [SerializeField] private Transform _birdSpawnPoint;
         [SerializeField] private PipePresentation _pipePrefab;
@@ -18,6 +20,10 @@ namespace Flappy.Installers
         public override void InstallBindings()
         {
             SignalBusInstaller.Install(Container);
+            
+            Container.BindInstance(_gameConfig.Bird);
+            Container.BindInstance(_gameConfig.Pipes);
+            Container.BindInstance(_gameConfig.World);
 
             Container.DeclareSignal<BirdCrashedSignal>();
             Container.DeclareSignal<GameStartSignal>();
@@ -47,7 +53,7 @@ namespace Flappy.Installers
                 .NonLazy();
             
             Container.BindMemoryPool<PipePresentation, PipePresentation.Pool>()
-                .WithInitialSize(5)
+                .WithInitialSize(_gameConfig.Pipes.PoolSize)
                 .FromComponentInNewPrefab(_pipePrefab)
                 .UnderTransform(_pipesContainer);
         }

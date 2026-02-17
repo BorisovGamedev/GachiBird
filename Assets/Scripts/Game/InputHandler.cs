@@ -8,11 +8,6 @@ namespace Flappy.Game
     {
         public event Action OnClicked;
 
-        public InputHandler()
-        {
-
-        }
-
         public void Tick()
         {
             if (Input.GetMouseButtonDown(0))
