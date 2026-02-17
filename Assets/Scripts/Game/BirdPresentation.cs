@@ -1,9 +1,9 @@
-using System;
 using UnityEngine;
 using Zenject;
 
 namespace Flappy.Game
 {
+    [RequireComponent(typeof(Rigidbody2D))]
     public class BirdPresentation : MonoBehaviour
     {
         private BirdLogic _logic;
@@ -13,10 +13,7 @@ namespace Flappy.Game
         {
             _logic = logic;
             
-            if (!TryGetComponent(out Rigidbody2D rigidbody))
-            {
-                Debug.LogError("Rigidbody2D not found on Bird!");
-            }
+            var rigidbody = GetComponent<Rigidbody2D>();
             
             _logic.Initialize(rigidbody, transform);
         }

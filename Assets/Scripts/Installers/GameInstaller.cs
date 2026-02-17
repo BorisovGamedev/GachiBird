@@ -27,7 +27,6 @@ namespace Flappy.Installers
 
             Container.DeclareSignal<BirdCrashedSignal>();
             Container.DeclareSignal<GameStartSignal>();
-            Container.DeclareSignal<ScoreChangedSignal>();
 
             Container.BindInterfacesAndSelfTo<InputHandler>().AsSingle();
 

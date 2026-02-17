@@ -695,7 +695,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _gameConfig: {fileID: 11400000, guid: 321b7658d06a8f44dae5de7015b4f50a, type: 2}
-  _birdPrefab: {fileID: 7788419981906932271, guid: 1fdc174f40a119a4aa196a391e6758e2, type: 3}
+  _birdPrefab: {fileID: -9082882085880273260, guid: 1fdc174f40a119a4aa196a391e6758e2, type: 3}
   _birdSpawnPoint: {fileID: 455889489}
   _pipePrefab: {fileID: 1587222029281339250, guid: 44e5f594e056b3b4b8e817f04c27ebc5, type: 3}
   _pipesContainer: {fileID: 1010179755}
