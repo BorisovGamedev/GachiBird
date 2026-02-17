@@ -17,19 +17,19 @@ namespace Flappy.Core
         [System.Serializable]
         public class BirdSettings
         {
-            public float JumpForce = 8f;
-            public float GravityScale = 10f;
+            public float JumpForce = 20f;
+            public float GravityScale = 6f;
         }
 
         [System.Serializable]
         public class PipeSettings
         {
-            public float Speed = 7f;
-            public float SpawnInterval = 2f;
+            public float Speed = 17.5f;
+            public float SpawnInterval = 0.8f;
             public float MinY = -4f;
             public float MaxY = 4f;
             public float OffsetX = 30f;
-            public int PoolSize = 5;
+            public int PoolSize = 10;
         }
 
         [System.Serializable]
