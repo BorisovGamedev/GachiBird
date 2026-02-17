@@ -5,14 +5,14 @@ namespace Flappy.Game
 {
     public class StartState : IGameState
     {
-        private readonly BirdController _birdController;
+        private readonly BirdPresentation _birdPresentation;
         private readonly PipeSpawner _pipeSpawner;
         private readonly ScoreManager _scoreManager;
         private readonly StartWindow _window;
 
-        public StartState(BirdController birdController, PipeSpawner pipeSpawner, ScoreManager scoreManager, StartWindow window)
+        public StartState(BirdPresentation birdPresentation, PipeSpawner pipeSpawner, ScoreManager scoreManager, StartWindow window)
         {
-            _birdController = birdController;
+            _birdPresentation = birdPresentation;
             _pipeSpawner = pipeSpawner;
             _scoreManager = scoreManager;
             _window = window;
@@ -21,7 +21,7 @@ namespace Flappy.Game
         public void Start()
         {
             Time.timeScale = 0;
-            _birdController.ResetPosition();
+            _birdPresentation.ResetPosition();
             _pipeSpawner.ClearPipes();
             _scoreManager.ResetCurrentScore();
             _window.Show();

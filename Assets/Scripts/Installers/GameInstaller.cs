@@ -9,7 +9,7 @@ namespace Flappy.Installers
     {
         [SerializeField] private GameConfig _gameConfig;
         
-        [SerializeField] private BirdController _birdPrefab;
+        [SerializeField] private BirdPresentation _birdPrefab;
         [SerializeField] private Transform _birdSpawnPoint;
         [SerializeField] private PipePresentation _pipePrefab;
         [SerializeField] private Transform _pipesContainer;
@@ -38,6 +38,7 @@ namespace Flappy.Installers
             Container.Bind<GameOverState>().AsSingle();
             Container.Bind<ScoreView>().AsSingle();
             Container.Bind<ScoreProvider>().AsSingle();
+            Container.Bind<BirdLogic>().AsSingle();
             
             Container.Bind<StartWindow>().FromInstance(_startWindow).AsSingle();
             Container.Bind<GameOverWindow>().FromInstance(_gameOverWindow).AsSingle();
@@ -46,7 +47,7 @@ namespace Flappy.Installers
             Container.BindInterfacesAndSelfTo<GameController>().AsSingle();
             Container.BindInterfacesAndSelfTo<PipeSpawner>().AsSingle();
 
-            Container.Bind<BirdController>()
+            Container.Bind<BirdPresentation>()
                 .FromComponentInNewPrefab(_birdPrefab)
                 .UnderTransform(_birdSpawnPoint)
                 .AsSingle()

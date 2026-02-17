@@ -694,7 +694,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2aaf41677a2743ee85f0a069402ac8fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _birdPrefab: {fileID: 3885264981557833512, guid: 1fdc174f40a119a4aa196a391e6758e2, type: 3}
+  _gameConfig: {fileID: 11400000, guid: 321b7658d06a8f44dae5de7015b4f50a, type: 2}
+  _birdPrefab: {fileID: 7788419981906932271, guid: 1fdc174f40a119a4aa196a391e6758e2, type: 3}
   _birdSpawnPoint: {fileID: 455889489}
   _pipePrefab: {fileID: 1587222029281339250, guid: 44e5f594e056b3b4b8e817f04c27ebc5, type: 3}
   _pipesContainer: {fileID: 1010179755}
@@ -939,7 +940,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 660a7013148398e49b0a2bc2c475e485, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _scrollSpeed: 0.33
   _renderer: {fileID: 731880556}
 --- !u!212 &731880556
 SpriteRenderer:
@@ -1002,7 +1002,7 @@ Transform:
   m_GameObject: {fileID: 731880554}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.0001, y: 0, z: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 1}
   m_LocalScale: {x: 10, y: 10, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

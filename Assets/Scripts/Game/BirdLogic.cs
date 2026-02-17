@@ -5,38 +5,40 @@ using Flappy.Core;
 
 namespace Flappy.Game
 {
-    public class BirdController : MonoBehaviour
+    public class BirdLogic : IDisposable
     {
-        [SerializeField] private Transform _transform;
-        [SerializeField] private Rigidbody2D _rigidbody;
+        private readonly SignalBus _signalBus;
+        private readonly InputHandler _inputHandler;
+        private readonly GameConfig.BirdSettings _settings;
 
+        private Rigidbody2D _rigidbody;
+        private Transform _transform;
         private Vector2 _initialPosition;
-        private SignalBus _signalBus;
-        private InputHandler _inputHandler;
-        
-        private GameConfig.BirdSettings _settings;
 
         public event Action OnZoneGetScoreEntered;
 
-        [Inject]
-        public void Construct(SignalBus signalBus, InputHandler inputHandler, GameConfig.BirdSettings settings)
+        public BirdLogic(SignalBus signalBus, InputHandler inputHandler, GameConfig.BirdSettings settings)
         {
             _signalBus = signalBus;
             _inputHandler = inputHandler;
-            _transform = GetComponent<Transform>();
-            _initialPosition = _transform.position;
             _settings = settings;
         }
 
-        private void OnEnable()
+        public void Initialize(Rigidbody2D rigidbody, Transform transform)
         {
-            _inputHandler.OnClicked += Jump;
+            _rigidbody = rigidbody;
+            _transform = transform;
+            _initialPosition = _transform.position;
+
             _rigidbody.gravityScale = _settings.GravityScale;
+
+            _inputHandler.OnClicked += Jump;
         }
-        
+
         public void ResetPosition()
         {
             _transform.position = _initialPosition;
+            _rigidbody.velocity = Vector2.zero;
         }
 
         private void Jump()
@@ -44,21 +46,21 @@ namespace Flappy.Game
             _rigidbody.velocity = Vector2.zero;
             _rigidbody.velocity = Vector2.up * _settings.JumpForce;
         }
-        
-        private void OnTriggerEnter2D(Collider2D other)
+
+        public void HandleTriggerEnter(Collider2D other)
         {
-            if (other.gameObject.GetComponent<ZoneGameOver>() != null)
+            if (other.TryGetComponent(out ZoneGameOver gameOverZone))
             {
                 _signalBus.Fire<BirdCrashedSignal>();
             }
-            
-            if (other.gameObject.GetComponent<ZoneGetScore>() != null)
+
+            if (other.TryGetComponent(out ZoneGetScore scoreZone))
             {
                 OnZoneGetScoreEntered?.Invoke();
             }
         }
-        
-        private void OnDisable()
+
+        public void Dispose()
         {
             _inputHandler.OnClicked -= Jump;
         }

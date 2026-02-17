@@ -9,27 +9,27 @@ namespace Flappy.Game
         private readonly SignalBus _signalBus;
         
         private ScoreProvider _scoreProvider;
-        private BirdController _birdController;
+        private BirdLogic _birdLogic;
         private ScoreView _scoreView;
 
-        public ScoreManager(SignalBus signalBus,  ScoreProvider scoreProvider, BirdController birdController)
+        public ScoreManager(SignalBus signalBus,  ScoreProvider scoreProvider, BirdLogic birdLogic)
         {
             _signalBus = signalBus;
             _scoreProvider = scoreProvider;
-            _birdController =  birdController;
+            _birdLogic =  birdLogic;
         }
 
         public void Initialize()
         {
             ResetCurrentScore();
             _signalBus.Subscribe<GameStartSignal>(ResetCurrentScore);
-            _birdController.OnZoneGetScoreEntered += AddScore;
+            _birdLogic.OnZoneGetScoreEntered += AddScore;
         }
 
         public void Dispose()
         {
             _signalBus.Unsubscribe<GameStartSignal>(ResetCurrentScore);
-            _birdController.OnZoneGetScoreEntered -= AddScore;
+            _birdLogic.OnZoneGetScoreEntered -= AddScore;
         }
 
         public void ResetCurrentScore()
